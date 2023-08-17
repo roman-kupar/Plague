@@ -61,20 +61,18 @@ void Window::update()
 	this->pollEvents();
 
 	
-	for (int i = 0;i < this->maxHumans;i++)
-	{
+	for (int i = 0; i < this->maxHumans; i++) {
 		this->humans[i].update(this->window);
-		for (int j = i + 1; j < this->maxHumans;j++)
-			if (this->humans[i].shape.getGlobalBounds().intersects(humans[j].shape.getGlobalBounds()) && humans[i].isInfected())
-			{
-				humans[j].infect();
+
+		for (int j = i + 1; j < this->maxHumans; j++) {
+			if (this->humans[i].isInfected() && this->humans[i].shape.getGlobalBounds().intersects(this->humans[j].shape.getGlobalBounds())) {
+				this->humans[j].infect();
 			}
-			else if (this->humans[j].shape.getGlobalBounds().intersects(humans[i].shape.getGlobalBounds()) && humans[j].isInfected())
-			{
-				humans[i].infect();
+			else if (this->humans[j].isInfected() && this->humans[j].shape.getGlobalBounds().intersects(this->humans[i].shape.getGlobalBounds())) {
+				this->humans[i].infect();
 			}
-	}
-	
+		}
+	}	
 }
 
 void Window::render()
