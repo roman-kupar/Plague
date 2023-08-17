@@ -2,7 +2,7 @@
 
 void Window::initVariables()
 {
-	this->maxHumans = 400;
+	this->maxHumans = 350;
 	for (int i = 0;i < this->maxHumans;i++)
 	{
 		this->humans.emplace_back(Human());

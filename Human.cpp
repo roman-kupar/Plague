@@ -10,19 +10,18 @@
 
     void Human::initVariables()
     {
-	    this->borderRadius = 50.f;
+	    this->borderRadius = 100.f;
 	    this->startPosition = sf::Vector2f(Random::GenerateFloat(0.f, static_cast<float>(WindowParametrs::getVideoWidth())), Random::GenerateFloat(0.f, static_cast<float>(WindowParametrs::getVideoHeight())));
 	    this->currentPosition = this->startPosition;
 	    this->movementSpeed = 4.f;
 	    this->currentDirection = chooseDirection();
-
-        this->infectionRadius = 12.f;
+        this->radius = 4.f;
     }
     void Human::initShape()
     {
-	    this->shape.setRadius(4.f);
+	    this->shape.setRadius(this->radius);
 	    this->shape.setFillColor(sf::Color::Black);
-        this->shape.setOrigin(2.f, 2.f);
+        this->shape.setOrigin(this->radius/2.f, this->radius/2.f);
 	    this->shape.setPosition(this->startPosition);
 	    this->shape.setOutlineColor(sf::Color::Magenta);
 	    this->shape.setOutlineThickness(1.f);
@@ -37,6 +36,40 @@
     Human::~Human()
     {
 	
+    }
+
+    void Human::updateWindowBoundsCollision(const sf::RenderTarget* target)
+    {
+        const float halfWidth = this->shape.getGlobalBounds().width / 2.f;
+        const float halfHeight = this->shape.getGlobalBounds().height / 2.f;
+
+        // Left collision
+        if (this->shape.getPosition().x - halfWidth <= 0.f)
+        {
+            this->shape.setPosition(halfWidth, this->shape.getPosition().y);
+            this->currentDirection = chooseDirection();
+        }
+
+        // Right collision
+        if (this->shape.getPosition().x + halfWidth >= target->getSize().x)
+        {
+            this->shape.setPosition(target->getSize().x - halfWidth, this->shape.getPosition().y);
+            this->currentDirection = chooseDirection();
+        }
+
+        // Top collision
+        if (this->shape.getPosition().y - halfHeight <= 0.f)
+        {
+            this->shape.setPosition(this->shape.getPosition().x, halfHeight);
+            this->currentDirection = chooseDirection();
+        }
+
+        // Bottom collision
+        if (this->shape.getPosition().y + halfHeight >= target->getSize().y)
+        {
+            this->shape.setPosition(this->shape.getPosition().x, target->getSize().y - halfHeight);
+            this->currentDirection = chooseDirection();
+        }
     }
 
     bool Human::isInfected()
@@ -57,20 +90,6 @@
 
         float directive_x = Random::GenerateFloat(x - this->borderRadius, x + this->borderRadius);
         float directive_y = Random::GenerateFloat(y - this->borderRadius, y + this->borderRadius);
-
-      /*  this->distanse = static_cast<float>(sqrt(pow(directive_x - this->currentPosition.x, 2) + pow(directive_y - this->currentPosition.y, 2)));
-
-        float module_vector_position = sqrt(pow(this->currentPosition.x,2) + pow(this->currentPosition.y,2));
-        float module_vector_directive = sqrt(pow(directive_x, 2) + pow(directive_y, 2));
-
-        float scalar_product = this->currentPosition.x * directive_x + this->currentPosition.y * directive_y;
-
-        float cos_angle = scalar_product / (module_vector_position * module_vector_directive);
-        float angle_rad = std::acos(cos_angle);
-        float angle = angle_rad * (180 / M_PI);
-
-        this->shape.setRotation(angle);*/
-
 
         return sf::Vector2f(directive_x, directive_y);
     }
@@ -103,8 +122,8 @@
             this->shape.setPosition(this->currentPosition);
         }
 
-        //infection phase
-
+        //check collisions
+        this->updateWindowBoundsCollision(target);
     }
 
     void Human::render(sf::RenderTarget* target)

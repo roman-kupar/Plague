@@ -12,8 +12,8 @@ private:
 	sf::Vector2f startPosition;
 	sf::Vector2f currentPosition;
 	sf::Vector2f currentDirection;
+	float radius;
 	float borderRadius;
-	float borderSquare;
 	float movementSpeed;
 
 	//Polar coordinats;
@@ -21,7 +21,6 @@ private:
 
 	//infect
 	bool infected;
-	float infectionRadius;
 
 	void initVariables();
 	void initShape();
@@ -35,6 +34,7 @@ public:
 	sf::Vector2f chooseDirection();
 	bool isInfected();
 	void infect();
+	void updateWindowBoundsCollision(const sf::RenderTarget* target);
 
 	//Functions
 	void update(const sf::RenderTarget* target);
