@@ -1,48 +1,45 @@
 #pragma once
 
-#include<iostream>
-#include<ctime>
-#include<vector>
-#include"Random.h"
-#include"Human.h"
-
-#include<SFML/Graphics.hpp>
-#include<SFML/System.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/Audio.hpp>
-#include<SFML/Network.hpp>
+#include <vector>
+#include "Random.h"
+#include "Human.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 class Window
 {
 private:
-	sf::VideoMode videoMode;
-	sf::RenderWindow* window;
-	bool endWindow;
-	sf::Event sfmlEvent;
+    sf::VideoMode videoMode;
+    sf::RenderWindow window;
+    sf::Event sfmlEvent;
 
-	//variables
-	int maxHumans;
-	float spawnTimerMax;
-	float spawnTimer;
+    sf::Font font;
+    sf::Text uiText;
 
-	std::vector<Human> humans;
-	//Human human;
-	
-	void initVariables();
-	void initWindow();
+
+    int maxHumans;
+    unsigned int illPeople;
+
+    std::vector<Human> humans;
+
+
+    void initVariables();
+    void initWindow();
+    void initFonts();
+    void initText();
+
 public:
-	//Constructors and destructors
-	Window();
-	~Window();
+    Window();
+    ~Window();
 
-	//Accessors
+    void patientZero();
+    const bool running() const;
+    void pollEvents();
 
-	//Functions
-	void patientZero();
-	const bool running() const;
-	void pollEvents();
+    void update();
+    void updateText();
 
-	void update();
-	void render();
+    void renderText(sf::RenderTarget& target);
+    void render();
 };
-

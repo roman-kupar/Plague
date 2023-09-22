@@ -1,43 +1,33 @@
 #pragma once
-#include<SFML/Graphics.hpp>
-#include<SFML/System.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/Audio.hpp>
-#include<SFML/Network.hpp>
+#include <SFML/Graphics.hpp>
 
 class Human
 {
 private:
-	sf::CircleShape dir;
-	sf::Vector2f startPosition;
-	sf::Vector2f currentPosition;
-	sf::Vector2f currentDirection;
-	float radius;
-	float borderRadius;
-	float movementSpeed;
+    sf::CircleShape dir;
+    sf::Vector2f startPosition;
+    sf::Vector2f currentPosition;
+    sf::Vector2f currentDirection;
+    float distance;
+    bool infected;
 
-	//Polar coordinats;
-	float distanse;
+    void initVariables();
+    void initShape();
 
-	//infect
-	bool infected;
-
-	void initVariables();
-	void initShape();
 public:
-	sf::CircleShape shape;
-	//Constructors and destructors
-	Human();
-	virtual ~Human();
+    const float borderRadius = 100.f;
+    const float movementSpeed = 4.f;
+    const float radius = 4.f;
 
-	//Modifiers
-	sf::Vector2f chooseDirection();
-	bool isInfected();
-	void infect();
-	void updateWindowBoundsCollision(const sf::RenderTarget* target);
+    sf::CircleShape shape;
 
-	//Functions
-	void update(const sf::RenderTarget* target);
-	void render(sf::RenderTarget* target);
+    Human();
+    virtual ~Human();
+
+    sf::Vector2f chooseDirection();
+    bool isInfected();
+    void infect();
+    void updateWindowBoundsCollision(const sf::RenderTarget* target);
+    void update(const sf::RenderTarget* target);
+    void render(sf::RenderTarget* target);
 };
-
