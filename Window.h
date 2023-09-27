@@ -18,22 +18,29 @@ private:
     sf::Text uiText;
 
 
-    int maxHumans;
+    unsigned int maxHumans;
     unsigned int illPeople;
+    unsigned int deadPeople;
 
     std::vector<Human> humans;
 
+    sf::Clock deltaTimeClock;
+    sf::Clock clock;
+    int seconds;
 
     void initVariables();
     void initWindow();
     void initFonts();
     void initText();
-
+    void initModifiers();
 public:
     Window();
     ~Window();
 
+    //game mechanics
     void patientZero();
+    void die();
+
     const bool running() const;
     void pollEvents();
 

@@ -2,7 +2,6 @@
 
 int main()
 {
-
     //Initialize window object
     Window window;
 

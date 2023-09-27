@@ -154,6 +154,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Modifiers.h" />
     <ClInclude Include="WindowParamets.h" />
     <ClInclude Include="Human.h" />
     <ClInclude Include="Random.h" />

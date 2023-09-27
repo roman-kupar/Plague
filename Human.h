@@ -8,15 +8,22 @@ private:
     sf::Vector2f startPosition;
     sf::Vector2f currentPosition;
     sf::Vector2f currentDirection;
+    sf::Color color;
     float distance;
+
+    sf::Clock tick;
+    float tack;
+
     bool infected;
+    bool heavyIll;
+    bool lightIll;
 
     void initVariables();
     void initShape();
 
 public:
     const float borderRadius = 100.f;
-    const float movementSpeed = 4.f;
+    float movementSpeed = 4.f;
     const float radius = 4.f;
 
     sf::CircleShape shape;
@@ -24,7 +31,15 @@ public:
     Human();
     virtual ~Human();
 
+    Human(Human&& other) noexcept;
+    Human& operator=(Human&& other) noexcept;
+    Human(const Human&) = delete;
+    Human& operator=(const Human&) = delete;
+
     sf::Vector2f chooseDirection();
+    
+    bool isLightIll();
+    bool isHeavyIll();
     bool isInfected();
     void infect();
     void updateWindowBoundsCollision(const sf::RenderTarget* target);

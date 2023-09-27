@@ -1,10 +1,19 @@
 #include "Window.h"
-#include<iostream>
-#include<sstream>
+#include <iostream>
+#include <sstream>
+#include "Modifiers.h"
+
+
+void Window::initModifiers()
+{
+    modifiers::modificators.Vacine = false;
+    modifiers::modificators.Airport = false;
+}
+
 void Window::initVariables()
 {
-    maxHumans = 350;
-    humans.reserve(maxHumans); // Reserve space for humans
+    maxHumans = 500;
+    humans.reserve(maxHumans);
     for (int i = 0; i < maxHumans; i++)
     {
         humans.emplace_back(Human());
@@ -22,7 +31,7 @@ void Window::initWindow()
 
 void Window::initFonts()
 {
-    if (!this->font.loadFromFile("Fonts/Dosis-Light.ttf"))
+    if (!font.loadFromFile("Fonts/Dosis-Light.ttf"))
     {
         std::cout << "ERROR::GAME::INITFONTS::Failed to load font!" << "\n";
     }
@@ -30,10 +39,10 @@ void Window::initFonts()
 
 void Window::initText()
 {
-    this->uiText.setFont(this->font);
-    this->uiText.setCharacterSize(24);
-    this->uiText.setFillColor(sf::Color::Black);
-    this->uiText.setString("NONE");
+    uiText.setFont(font);
+    uiText.setCharacterSize(24);
+    uiText.setFillColor(sf::Color::Black);
+    uiText.setString("NONE");
 }
 
 Window::Window()
@@ -42,12 +51,13 @@ Window::Window()
     initVariables();
     initFonts();
     initText();
+    initModifiers();
 }
 
 Window::~Window()
 {
-    // Destructor will automatically clean up the window
 }
+
 
 const bool Window::running() const
 {
@@ -58,6 +68,20 @@ void Window::patientZero()
 {
     int random_human = Random::GenerateInt(0, maxHumans);
     humans[random_human].infect();
+}
+
+void Window::die()
+{
+    for (auto it = humans.begin(); it != humans.end();++it)
+    {
+        if (it->movementSpeed <= 0.f)
+        {
+            this->humans.erase(it);
+            this->deadPeople += 1;
+            this->illPeople -= 1;
+            break;
+        }
+    }
 }
 
 void Window::pollEvents()
@@ -79,6 +103,10 @@ void Window::pollEvents()
 
 void Window::update()
 {
+    sf::Time deltaTime = this->deltaTimeClock.restart();
+
+    this->seconds = int(this->clock.getElapsedTime().asSeconds());
+
     pollEvents();
 
     for (auto& human : humans)
@@ -86,11 +114,11 @@ void Window::update()
         human.update(&window);
     }
 
-    for (int i = 0; i < maxHumans; i++)
+    for (int i = 0; i < humans.size(); i++)
     {
         if (humans[i].isInfected())
         {
-            for (int j = 0; j < maxHumans; j++)
+            for (int j = 0; j < humans.size(); j++)
             {
                 if (!humans[j].isInfected() && i != j)
                 {
@@ -108,13 +136,15 @@ void Window::update()
     }
 
     updateText();
+
+    die();
 }
 
 void Window::updateText()
 {
     std::stringstream ss;
 
-    ss << "Sick people: " << this->illPeople;
+    ss << "Sick people: " << this->illPeople << "\n" << "Dead people: " << this->deadPeople << "\n" << "Time: " << seconds;
 
     this->uiText.setString(ss.str());
 }
