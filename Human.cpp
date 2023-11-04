@@ -4,7 +4,7 @@
 #include <cmath>
 
 Human::Human(Human&& other) noexcept
-    : infected(other.infected), color(other.color), tick(other.tick), tack(other.tack),
+    : infected(other.infected), color(other.color), timer(other.timer), chance(other.chance), tack(other.tack),
     movementSpeed(other.movementSpeed), startPosition(other.startPosition),
     currentPosition(other.currentPosition), currentDirection(other.currentDirection)
 {
@@ -14,8 +14,9 @@ Human::Human(Human&& other) noexcept
 
     // Reset the other object's properties
     other.infected = false;
+    other.heavyIll = false;
     other.color = sf::Color::Blue;
-    other.tack = 0.5;
+    other.timer.restart();
     other.movementSpeed = 0.0f;
 }
 
@@ -29,9 +30,10 @@ Human& Human::operator=(Human&& other) noexcept
 
         // Move other properties
         infected = other.infected;
+        heavyIll = other.heavyIll;
         color = other.color;
-        tick = other.tick;
-        tack = other.tack;
+        timer = other.timer;
+        chance = other.chance;
         movementSpeed = other.movementSpeed;
         startPosition = other.startPosition;
         currentPosition = other.currentPosition;
@@ -39,8 +41,8 @@ Human& Human::operator=(Human&& other) noexcept
 
         // Reset the other object's properties
         other.infected = false;
+        other.heavyIll = false;
         other.color = sf::Color::Blue;
-        other.tack = 0.5;
         other.movementSpeed = 0.0f;
     }
     return *this;
@@ -70,6 +72,8 @@ void Human::initVariables()
     this->heavyIll = false;
     this->lightIll = false;
     this->infected = false;
+
+    this->chance = Random::GenerateInt(0, 100);
 }
 
 void Human::initShape()
@@ -112,15 +116,33 @@ bool Human::isLightIll()
 {
     return this->lightIll;
 }
+
+
 void Human::infect()
 {
-    infected = true;
 
+    this->infected = true;
+    if (this->chance <= 30)
+    {
+        this->heavyIll = true;
+    }
+        
+        
     this->color = sf::Color::Red;
     this->shape.setFillColor(this->color);
     this->shape.setOutlineColor(this->color);
-    this->tick.restart();
-    this->tack = 0.5;
+        
+        
+        this->timer.restart();
+}
+
+void Human::recover()
+{
+    this->infected = false;
+    this->heavyIll = false;
+    this->color = sf::Color::Blue;
+    this->shape.setFillColor(color);
+    this->shape.setOutlineColor(sf::Color::Magenta);
 
 }
 
@@ -137,6 +159,11 @@ sf::Vector2f Human::chooseDirection()
 
 void Human::update(const sf::RenderTarget* target)
 {
+    if (!isInfected())
+    {
+        this->timer.restart();
+    }
+
     sf::Vector2f directionVector = currentDirection - currentPosition;
     float distanceToDirection = std::hypot(directionVector.x, directionVector.y);
 
@@ -154,24 +181,30 @@ void Human::update(const sf::RenderTarget* target)
         shape.setPosition(currentPosition);
     }
 
-    if (isInfected())
+
+    if (this->heavyIll == true)
     {
-        if (this->tick.getElapsedTime().asSeconds() >= this->tack)
+        if (this->timer.getElapsedTime().asSeconds() >= this->tack)
         {
-            this->tack += 0.5;
+       
+            timer.restart();
+
             this->color.r -= 4;
-            if (this->movementSpeed > 0.f)  
+
+            if (this->movementSpeed > 0.f)
             {
-                this->movementSpeed -= 0.1f;  
+                this->movementSpeed -= 0.15f;
             }
-            else if (this->movementSpeed<0.f)
+            else if (this->movementSpeed < 0.f)
             {
-                this->movementSpeed = 0.f;  
+                this->movementSpeed = 0.f;
             }
             this->shape.setFillColor(this->color);
             this->shape.setOutlineColor(this->color);
+            }
         }
-    }
+   
+  
 
     updateWindowBoundsCollision(target);
 }

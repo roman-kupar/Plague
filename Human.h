@@ -11,8 +11,9 @@ private:
     sf::Color color;
     float distance;
 
-    sf::Clock tick;
-    float tack;
+    sf::Clock timer;
+   
+    int chance;
 
     bool infected;
     bool heavyIll;
@@ -25,7 +26,7 @@ public:
     const float borderRadius = 100.f;
     float movementSpeed = 4.f;
     const float radius = 4.f;
-
+    const float tack = 0.4;
     sf::CircleShape shape;
 
     Human();
@@ -41,7 +42,10 @@ public:
     bool isLightIll();
     bool isHeavyIll();
     bool isInfected();
+
     void infect();
+    void recover();
+
     void updateWindowBoundsCollision(const sf::RenderTarget* target);
     void update(const sf::RenderTarget* target);
     void render(sf::RenderTarget* target);

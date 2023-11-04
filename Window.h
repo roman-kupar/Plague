@@ -21,6 +21,7 @@ private:
     unsigned int maxHumans;
     unsigned int illPeople;
     unsigned int deadPeople;
+    unsigned int recoveredPeople;
 
     std::vector<Human> humans;
 

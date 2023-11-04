@@ -18,8 +18,9 @@ void Window::initVariables()
     {
         humans.emplace_back(Human());
     }
-    patientZero();
     illPeople = 1;
+    recoveredPeople = 0;
+    deadPeople = 0;
 }
 
 void Window::initWindow()
@@ -52,6 +53,8 @@ Window::Window()
     initFonts();
     initText();
     initModifiers();
+
+    patientZero();
 }
 
 Window::~Window()
@@ -72,14 +75,17 @@ void Window::patientZero()
 
 void Window::die()
 {
-    for (auto it = humans.begin(); it != humans.end();++it)
+    for (int i = 0; i < 5;i++) 
     {
-        if (it->movementSpeed <= 0.f)
+        for (auto it = humans.begin(); it != humans.end();++it)
         {
-            this->humans.erase(it);
-            this->deadPeople += 1;
-            this->illPeople -= 1;
-            break;
+            if (it->movementSpeed <= 0.f)
+            {
+                this->humans.erase(it);
+                this->deadPeople += 1;
+                this->illPeople -= 1;
+                break;
+            }
         }
     }
 }
@@ -125,7 +131,9 @@ void Window::update()
                     sf::FloatRect boundsI = humans[i].shape.getGlobalBounds();
                     sf::FloatRect boundsJ = humans[j].shape.getGlobalBounds();
 
-                    if (boundsI.intersects(boundsJ))
+                    int chance_to_get_infected = Random::GenerateInt(0, 100);
+
+                    if (boundsI.intersects(boundsJ) && chance_to_get_infected>60)
                     {
                         humans[j].infect();
                         this->illPeople += 1;
@@ -134,6 +142,22 @@ void Window::update()
             }
         }
     }
+
+    //Recoverment
+    /*for (int i = 0; i < humans.size(); i++)
+    {
+        if (humans[i].isInfected())
+        {
+            float chance_to_recover = Random::GenerateFloat(0, 10);
+
+            if (chance_to_recover >= 9.99)
+            {
+                humans[i].recover();
+                this->recoveredPeople += 1;
+                this->illPeople -= 1;
+            }
+        }
+    }*/
 
     updateText();
 
@@ -144,7 +168,7 @@ void Window::updateText()
 {
     std::stringstream ss;
 
-    ss << "Sick people: " << this->illPeople << "\n" << "Dead people: " << this->deadPeople << "\n" << "Time: " << seconds;
+    ss << "Sick people: " << this->illPeople << "\n" << "Dead people: " << this->deadPeople << "\n" << "Time: " << seconds /*<< "\n" << "Recovered: " << this->recoveredPeople*/;
 
     this->uiText.setString(ss.str());
 }
