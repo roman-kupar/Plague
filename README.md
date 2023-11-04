@@ -11,3 +11,5 @@ Infection Dynamics: Individuals move randomly on the grid, and there is a chance
 Infection Parameters: In future, you'd be able to configure parameters such as infection probability, movement speed, and more to customize the simulation.
 
 Statistics and Visualization: The program provides statistics on the infection spread, including the number of infected, healthy and dead individuals over time. 
+
+<img width="960" alt="image" src="https://github.com/roman-kupar/Plague/assets/44550094/c6a594ec-2fc7-4329-b639-0fd4a33892bc">
