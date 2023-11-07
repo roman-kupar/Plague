@@ -1,11 +1,15 @@
 #include "Window.h"
 #include <iostream>
 #include <sstream>
+#include "Input.txt"
+#include <fstream>
 #include "Modifiers.h"
+#include<fstream>
 
+std::fstream file("Input.txt");
 
 void Window::initModifiers()
-{
+{   
     modifiers::modificators.Vacine = false;
     modifiers::modificators.Airport = false;
 }
@@ -44,6 +48,12 @@ void Window::initText()
     uiText.setCharacterSize(24);
     uiText.setFillColor(sf::Color::Black);
     uiText.setString("NONE");
+
+    pText.setFont(font);
+    pText.setCharacterSize(64);
+    pText.setFillColor(sf::Color::Black);
+    pText.setString("NONE");
+
 }
 
 Window::Window()
@@ -102,18 +112,44 @@ void Window::pollEvents()
         case sf::Event::KeyPressed:
             if (sfmlEvent.key.code == sf::Keyboard::Escape)
                 window.close();
+            else if (sfmlEvent.key.code == sf::Keyboard::Space)
+                if (isPaused())
+                    this->paused = false;
+                else
+                {
+                    pause();
+                    updateText();
+                }
+
+            else if (sfmlEvent.key.code == sf::Keyboard::R)
+                restart();
             break;
         }
     }
 }
 
+void Window::pause()
+{
+    this->paused = true;
+}
+
+bool Window::isPaused()
+{
+    return this->paused;
+}
+void Window::restart()
+{
+    this->restarted = true;
+}
+bool Window::isRestarted()
+{
+    return this->restarted;
+}
 void Window::update()
 {
     sf::Time deltaTime = this->deltaTimeClock.restart();
 
     this->seconds = int(this->clock.getElapsedTime().asSeconds());
-
-    pollEvents();
 
     for (auto& human : humans)
     {
@@ -162,20 +198,42 @@ void Window::update()
     updateText();
 
     die();
+
+    pollEvents();
 }
 
 void Window::updateText()
 {
     std::stringstream ss;
+    std::stringstream pp;
 
     ss << "Sick people: " << this->illPeople << "\n" << "Dead people: " << this->deadPeople << "\n" << "Time: " << seconds /*<< "\n" << "Recovered: " << this->recoveredPeople*/;
 
+    if (isPaused())
+    {
+        pp << "PAUSED";
+
+        sf::FloatRect textRect = this->pText.getLocalBounds();
+
+        this->pText.setOrigin(textRect.width / 2, textRect.height / 2);
+
+        this->pText.setPosition(sf::Vector2f(sf::VideoMode::getDesktopMode().width / 2.0f, sf::VideoMode::getDesktopMode().height / 2.0f));
+
+        this->pText.setString(pp.str());
+    }
+        
     this->uiText.setString(ss.str());
+
 }
 
 void Window::renderText(sf::RenderTarget& target)
 {
     target.draw(this->uiText);
+    if (isPaused())
+    {
+        target.draw(this->pText);
+    }
+
 }
 
 void Window::render()

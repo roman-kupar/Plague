@@ -61,4 +61,7 @@
   <ItemGroup>
     <Font Include="Fonts\Dosis-Light.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Input.txt" />
+  </ItemGroup>
 </Project>

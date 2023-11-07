@@ -186,7 +186,7 @@ void Human::update(const sf::RenderTarget* target)
     {
         if (this->timer.getElapsedTime().asSeconds() >= this->tack)
         {
-       
+
             timer.restart();
 
             this->color.r -= 4;
@@ -201,9 +201,9 @@ void Human::update(const sf::RenderTarget* target)
             }
             this->shape.setFillColor(this->color);
             this->shape.setOutlineColor(this->color);
-            }
         }
-   
+    }
+
   
 
     updateWindowBoundsCollision(target);

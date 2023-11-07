@@ -16,7 +16,10 @@ private:
 
     sf::Font font;
     sf::Text uiText;
+    sf::Text pText;
 
+    bool paused;
+    bool restarted;
 
     unsigned int maxHumans;
     unsigned int illPeople;
@@ -47,6 +50,12 @@ public:
 
     void update();
     void updateText();
+
+    bool isRestarted();
+    void restart();
+
+    bool isPaused();
+    void pause();
 
     void renderText(sf::RenderTarget& target);
     void render();
