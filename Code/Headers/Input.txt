@@ -1,0 +1,4 @@
+borderRadius = 100.f;
+movementSpeed = 4.f
+radius = 4.f
+tack = 0.4

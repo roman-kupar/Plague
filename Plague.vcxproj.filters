@@ -15,46 +15,56 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="openal32.dll" />
-    <None Include="sfml-audio-2.dll" />
-    <None Include="sfml-audio-d-2.dll" />
-    <None Include="sfml-graphics-2.dll" />
-    <None Include="sfml-graphics-d-2.dll" />
-    <None Include="sfml-network-2.dll" />
-    <None Include="sfml-network-d-2.dll" />
-    <None Include="sfml-system-2.dll" />
-    <None Include="sfml-system-d-2.dll" />
-    <None Include="sfml-window-2.dll" />
-    <None Include="sfml-window-d-2.dll" />
+    <None Include="x64\Debug\openal32.dll" />
+    <None Include="SFML\sfml-audio-2.dll" />
+    <None Include="SFML\sfml-audio-d-2.dll" />
+    <None Include="SFML\sfml-graphics-2.dll" />
+    <None Include="SFML\sfml-graphics-d-2.dll" />
+    <None Include="SFML\sfml-network-2.dll" />
+    <None Include="SFML\sfml-network-d-2.dll" />
+    <None Include="SFML\sfml-system-2.dll" />
+    <None Include="SFML\sfml-system-d-2.dll" />
+    <None Include="SFML\sfml-window-2.dll" />
+    <None Include="SFML\sfml-window-d-2.dll" />
+    <None Include="x64\Release\sfml-audio-2.dll" />
+    <None Include="x64\Debug\sfml-audio-d-2.dll" />
+    <None Include="x64\Release\sfml-graphics-2.dll" />
+    <None Include="x64\Debug\sfml-graphics-d-2.dll" />
+    <None Include="x64\Release\sfml-network-2.dll" />
+    <None Include="x64\Debug\sfml-network-d-2.dll" />
+    <None Include="x64\Release\sfml-system-2.dll" />
+    <None Include="x64\Debug\sfml-system-d-2.dll" />
+    <None Include="x64\Release\sfml-window-2.dll" />
+    <None Include="x64\Debug\sfml-window-d-2.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Code\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="Code\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Human.cpp">
+    <ClCompile Include="Code\Human.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Random.cpp">
+    <ClCompile Include="Code\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="Code\Headers\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Human.h">
+    <ClInclude Include="Code\Headers\Human.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
+    <ClInclude Include="Code\Headers\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowParamets.h">
+    <ClInclude Include="Code\Headers\WindowParamets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Modifiers.h">
+    <ClInclude Include="Code\Headers\Modifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,6 +72,6 @@
     <Font Include="Fonts\Dosis-Light.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Input.txt" />
+    <Text Include="Code\Headers\Input.txt" />
   </ItemGroup>
 </Project>

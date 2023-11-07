@@ -1,4 +1,4 @@
-#include "Random.h"
+#include "Headers/Random.h"
 
 std::random_device Random::randomDevice;
 std::mt19937_64 Random::generator(Random::randomDevice());

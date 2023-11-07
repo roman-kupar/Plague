@@ -1,18 +1,14 @@
-#include "Window.h"
+#include "Headers/Window.h"
 #include <iostream>
 #include <sstream>
-#include "Input.txt"
 #include <fstream>
-#include "Modifiers.h"
-#include<fstream>
+//#include "Modifiers.h"
 
-std::fstream file("Input.txt");
-
-void Window::initModifiers()
-{   
-    modifiers::modificators.Vacine = false;
-    modifiers::modificators.Airport = false;
-}
+//void Window::initModifiers()
+//{   
+//    modifiers::modificators.Vacine = false;
+//    modifiers::modificators.Airport = false;
+//}
 
 void Window::initVariables()
 {
@@ -62,7 +58,7 @@ Window::Window()
     initVariables();
     initFonts();
     initText();
-    initModifiers();
+    //initModifiers();
 
     patientZero();
 }

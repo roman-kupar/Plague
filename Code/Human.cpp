@@ -1,6 +1,6 @@
-#include "Human.h"
-#include "Random.h"
-#include "WindowParamets.h"
+#include "Headers/Human.h"
+#include "Headers/Random.h"
+#include "Headers/WindowParamets.h"
 #include <cmath>
 
 Human::Human(Human&& other) noexcept
@@ -70,7 +70,6 @@ void Human::initVariables()
 
     this->color = sf::Color::Blue;
     this->heavyIll = false;
-    this->lightIll = false;
     this->infected = false;
 
     this->chance = Random::GenerateInt(0, 100);
@@ -112,11 +111,6 @@ bool Human::isHeavyIll()
 {
     return this->heavyIll;
 }
-bool Human::isLightIll()
-{
-    return this->lightIll;
-}
-
 
 void Human::infect()
 {
@@ -133,7 +127,7 @@ void Human::infect()
     this->shape.setOutlineColor(this->color);
         
         
-        this->timer.restart();
+    this->timer.restart();
 }
 
 void Human::recover()

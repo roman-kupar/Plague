@@ -1,5 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+//#include "Modifiers.h"
+
+
 
 class Human
 {
@@ -17,12 +20,13 @@ private:
 
     bool infected;
     bool heavyIll;
-    bool lightIll;
 
     void initVariables();
     void initShape();
 
+    
 public:
+   
     const float borderRadius = 100.f;
     float movementSpeed = 4.f;
     const float radius = 4.f;
@@ -31,6 +35,7 @@ public:
 
     Human();
     virtual ~Human();
+
 
     Human(Human&& other) noexcept;
     Human& operator=(Human&& other) noexcept;
